@@ -1,0 +1,436 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette - Blackjack Theme */
+    --primary-green: #1a5f3d;
+    --light-green: #2a7f4d;
+    --dark-green: #0f3d26;
+    --accent-gold: #d4af37;
+    --accent-red: #c41e3a;
+    --text-light: #ffffff;
+    --text-dark: #2c2c2c;
+    --bg-light: #f5f5f5;
+    --card-bg: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-strong: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px var(--shadow-strong);
+    overflow: hidden;
+}
+
+/* Header */
+header {
+    background: var(--primary-green);
+    color: var(--text-light);
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* Main Content */
+main {
+    padding: 2rem 1.5rem;
+}
+
+/* Input Sections */
+.input-section {
+    margin-bottom: 2rem;
+}
+
+.input-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* Card Selector */
+.card-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--primary-green);
+    border-radius: 8px;
+    padding: 1rem 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-dark);
+}
+
+.card-btn:hover {
+    background: var(--bg-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+.card-btn.selected {
+    background: var(--primary-green);
+    color: var(--text-light);
+    border-color: var(--dark-green);
+}
+
+.card-btn.active {
+    background: var(--accent-gold);
+    color: var(--text-dark);
+    border-color: var(--accent-gold);
+    font-weight: 700;
+}
+
+/* Input Mode Switch */
+.input-mode-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    background: var(--bg-light);
+    padding: 0.25rem;
+    border-radius: 8px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mode-btn.active {
+    background: var(--card-bg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+/* Cards Input Area */
+.cards-input-area {
+    margin-bottom: 1rem;
+}
+
+.selected-cards {
+    min-height: 60px;
+    background: var(--bg-light);
+    border: 2px dashed var(--primary-green);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.selected-card {
+    background: var(--primary-green);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.clear-btn {
+    background: var(--accent-red);
+    color: var(--text-light);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+    background: #a01828;
+}
+
+/* Total Input Mode */
+.total-input-group {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.total-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.total-input-group input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--primary-green);
+    border-radius: 6px;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.checkbox-group {
+    margin-top: 1rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Actions Grid */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+}
+
+.action-checkbox {
+    background: var(--bg-light);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-checkbox:hover {
+    background: #e8e8e8;
+}
+
+.action-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.action-checkbox input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+}
+
+.action-checkbox span {
+    font-weight: 500;
+}
+
+/* Get Advice Button */
+.get-advice-btn {
+    width: 100%;
+    padding: 1.25rem;
+    background: var(--accent-gold);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.get-advice-btn:hover {
+    background: #c49b2e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.get-advice-btn:active {
+    transform: translateY(0);
+}
+
+/* Results Section */
+.results-section {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    border-left: 4px solid var(--accent-gold);
+}
+
+.results-section h2 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+}
+
+.advice-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.action-result {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    text-align: center;
+    padding: 1rem;
+    background: var(--accent-gold);
+    border-radius: 8px;
+}
+
+.action-result.hit {
+    background: #3498db;
+    color: white;
+}
+
+.action-result.stand {
+    background: #2ecc71;
+    color: white;
+}
+
+.action-result.double {
+    background: var(--accent-gold);
+    color: var(--text-dark);
+}
+
+.action-result.split {
+    background: #9b59b6;
+    color: white;
+}
+
+.action-result.surrender {
+    background: var(--accent-red);
+    color: white;
+}
+
+.explanation {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* Hand Summary */
+.hand-summary {
+    background: var(--primary-green);
+    color: var(--text-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* Helper Text */
+.helper-text {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Footer */
+footer {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 2px solid var(--primary-green);
+}
+
+footer p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .card-selector {
+        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+        gap: 0.4rem;
+    }
+
+    .card-btn {
+        padding: 0.75rem 0.25rem;
+        font-size: 1rem;
+    }
+
+    .action-result {
+        font-size: 1.5rem;
+    }
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .container {
+        border-radius: 12px;
+    }
+
+    header {
+        padding: 1.5rem 1rem;
+    }
+
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}

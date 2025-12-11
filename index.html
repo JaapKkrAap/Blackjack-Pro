@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Strategy Advisor</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>♠️ Blackjack Strategy Advisor</h1>
+            <p class="subtitle">Premier Blackjack (TOTO) Basic Strategy</p>
+        </header>
+
+        <main>
+            <!-- Dealer Card Selection -->
+            <section class="input-section">
+                <h2>Dealer Kaart</h2>
+                <div class="card-selector" id="dealerCards">
+                    <button class="card-btn" data-value="2">2</button>
+                    <button class="card-btn" data-value="3">3</button>
+                    <button class="card-btn" data-value="4">4</button>
+                    <button class="card-btn" data-value="5">5</button>
+                    <button class="card-btn" data-value="6">6</button>
+                    <button class="card-btn" data-value="7">7</button>
+                    <button class="card-btn" data-value="8">8</button>
+                    <button class="card-btn" data-value="9">9</button>
+                    <button class="card-btn" data-value="10">10</button>
+                    <button class="card-btn" data-value="J">J</button>
+                    <button class="card-btn" data-value="Q">Q</button>
+                    <button class="card-btn" data-value="K">K</button>
+                    <button class="card-btn" data-value="A">A</button>
+                </div>
+            </section>
+
+            <!-- Player Hand Input -->
+            <section class="input-section">
+                <h2>Jouw Hand</h2>
+
+                <div class="input-mode-switch">
+                    <button class="mode-btn active" data-mode="cards">Kaarten Invoer</button>
+                    <button class="mode-btn" data-mode="total">Totaal Invoer</button>
+                </div>
+
+                <!-- Cards Input Mode -->
+                <div class="input-mode" id="cardsMode">
+                    <div class="cards-input-area">
+                        <div id="selectedCards" class="selected-cards">
+                            <p class="helper-text">Klik op kaarten om je hand samen te stellen</p>
+                        </div>
+                        <button class="clear-btn" id="clearCards">Wis Kaarten</button>
+                    </div>
+                    <div class="card-selector" id="playerCards">
+                        <button class="card-btn" data-value="2">2</button>
+                        <button class="card-btn" data-value="3">3</button>
+                        <button class="card-btn" data-value="4">4</button>
+                        <button class="card-btn" data-value="5">5</button>
+                        <button class="card-btn" data-value="6">6</button>
+                        <button class="card-btn" data-value="7">7</button>
+                        <button class="card-btn" data-value="8">8</button>
+                        <button class="card-btn" data-value="9">9</button>
+                        <button class="card-btn" data-value="10">10</button>
+                        <button class="card-btn" data-value="J">J</button>
+                        <button class="card-btn" data-value="Q">Q</button>
+                        <button class="card-btn" data-value="K">K</button>
+                        <button class="card-btn" data-value="A">A</button>
+                    </div>
+                </div>
+
+                <!-- Total Input Mode -->
+                <div class="input-mode hidden" id="totalMode">
+                    <div class="total-input-group">
+                        <label for="handTotal">Hand Totaal:</label>
+                        <input type="number" id="handTotal" min="4" max="21" placeholder="bijv. 16">
+
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="isSoftHand">
+                                <span>Soft hand (bevat Aas als 11)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Available Actions -->
+            <section class="input-section">
+                <h2>Beschikbare Acties</h2>
+                <div class="actions-grid">
+                    <label class="action-checkbox">
+                        <input type="checkbox" name="action" value="hit" checked disabled>
+                        <span>Hit (Kaart)</span>
+                    </label>
+                    <label class="action-checkbox">
+                        <input type="checkbox" name="action" value="stand" checked disabled>
+                        <span>Stand (Blijven)</span>
+                    </label>
+                    <label class="action-checkbox">
+                        <input type="checkbox" name="action" value="double" id="doubleAction" checked>
+                        <span>Double (Dubbel)</span>
+                    </label>
+                    <label class="action-checkbox">
+                        <input type="checkbox" name="action" value="split" id="splitAction">
+                        <span>Split (Splitsen)</span>
+                    </label>
+                    <label class="action-checkbox">
+                        <input type="checkbox" name="action" value="surrender" id="surrenderAction">
+                        <span>Surrender (Opgeven)</span>
+                    </label>
+                </div>
+                <p class="helper-text">Hit en Stand zijn altijd beschikbaar</p>
+            </section>
+
+            <!-- Get Advice Button -->
+            <button class="get-advice-btn" id="getAdviceBtn">
+                Krijg Strategie Advies
+            </button>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="resultsSection">
+                <h2>Advies</h2>
+                <div class="advice-card">
+                    <div class="action-result" id="actionResult"></div>
+                    <div class="explanation" id="explanationText"></div>
+                </div>
+            </section>
+
+            <!-- Hand Summary (hidden by default) -->
+            <div class="hand-summary hidden" id="handSummary"></div>
+        </main>
+
+        <footer>
+            <p>Basic Strategy voor Premier Blackjack (TOTO)</p>
+            <p class="disclaimer">Educatieve tool - Gebruik op eigen risico</p>
+        </footer>
+    </div>
+
+    <script src="js/strategy.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
