@@ -1,3 +1,7 @@
+/* ============================================
+   Blackjack Strategy Advisor - Optimized Styles
+   ============================================ */
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -18,6 +22,11 @@
     --card-bg: #ffffff;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-strong: rgba(0, 0, 0, 0.2);
+
+    /* Animation timing */
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
 }
 
 body {
@@ -26,16 +35,18 @@ body {
     color: var(--text-dark);
     min-height: 100vh;
     padding: 1rem;
+    line-height: 1.6;
 }
 
 /* Container */
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     background: var(--card-bg);
     border-radius: 16px;
     box-shadow: 0 8px 32px var(--shadow-strong);
     overflow: hidden;
+    animation: slideIn var(--transition-slow) ease-out;
 }
 
 /* Header */
@@ -56,6 +67,21 @@ header h1 {
     font-size: 0.95rem;
     opacity: 0.9;
     font-weight: 400;
+    margin-bottom: 0.5rem;
+}
+
+.keyboard-hint {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+kbd {
+    background: var(--dark-green);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
 }
 
 /* Main Content */
@@ -68,11 +94,46 @@ main {
     margin-bottom: 2rem;
 }
 
-.input-section h2 {
+.input-section h2,
+.quick-section h2 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
     color: var(--primary-green);
     font-weight: 600;
+}
+
+/* Quick Scenarios */
+.quick-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px dashed var(--bg-light);
+}
+
+.quick-scenarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+}
+
+.quick-scenario-btn {
+    background: linear-gradient(135deg, var(--light-green), var(--primary-green));
+    color: var(--text-light);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.quick-scenario-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--shadow-strong);
+}
+
+.quick-scenario-btn:active {
+    transform: translateY(-1px);
 }
 
 /* Card Selector */
@@ -91,8 +152,29 @@ main {
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast) ease;
     color: var(--text-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--primary-green);
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-normal) ease, height var(--transition-normal) ease;
+    z-index: 0;
+}
+
+.card-btn:hover::before {
+    width: 200%;
+    height: 200%;
 }
 
 .card-btn:hover {
@@ -105,6 +187,7 @@ main {
     background: var(--primary-green);
     color: var(--text-light);
     border-color: var(--dark-green);
+    animation: pulse var(--transition-normal) ease;
 }
 
 .card-btn.active {
@@ -112,6 +195,7 @@ main {
     color: var(--text-dark);
     border-color: var(--accent-gold);
     font-weight: 700;
+    animation: tada var(--transition-slow) ease;
 }
 
 /* Input Mode Switch */
@@ -132,7 +216,7 @@ main {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal) ease;
 }
 
 .mode-btn.active {
@@ -156,6 +240,7 @@ main {
     gap: 0.5rem;
     flex-wrap: wrap;
     align-items: center;
+    transition: all var(--transition-normal) ease;
 }
 
 .selected-card {
@@ -165,6 +250,7 @@ main {
     border-radius: 6px;
     font-weight: 600;
     font-size: 1.1rem;
+    animation: slideInCard var(--transition-normal) ease;
 }
 
 .clear-btn {
@@ -175,11 +261,12 @@ main {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal) ease;
 }
 
 .clear-btn:hover {
     background: #a01828;
+    transform: scale(1.05);
 }
 
 /* Total Input Mode */
@@ -202,6 +289,13 @@ main {
     border-radius: 6px;
     font-size: 1.1rem;
     margin-bottom: 1rem;
+    transition: all var(--transition-normal) ease;
+}
+
+.total-input-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
 }
 
 .checkbox-group {
@@ -236,7 +330,7 @@ main {
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal) ease;
 }
 
 .action-checkbox:hover {
@@ -268,9 +362,10 @@ main {
     font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal) ease;
     margin: 2rem 0;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    position: relative;
 }
 
 .get-advice-btn:hover {
@@ -283,6 +378,12 @@ main {
     transform: translateY(0);
 }
 
+.keyboard-shortcut {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-left: 0.5rem;
+}
+
 /* Results Section */
 .results-section {
     background: var(--bg-light);
@@ -290,6 +391,10 @@ main {
     border-radius: 12px;
     margin-top: 2rem;
     border-left: 4px solid var(--accent-gold);
+}
+
+.results-section.fade-in {
+    animation: fadeInUp var(--transition-slow) ease;
 }
 
 .results-section h2 {
@@ -313,6 +418,7 @@ main {
     padding: 1rem;
     background: var(--accent-gold);
     border-radius: 8px;
+    animation: bounceIn var(--transition-slow) ease;
 }
 
 .action-result.hit {
@@ -340,6 +446,16 @@ main {
     color: white;
 }
 
+.action-result.blackjack {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: var(--text-dark);
+}
+
+.action-result.bust {
+    background: #e74c3c;
+    color: white;
+}
+
 .explanation {
     font-size: 1.05rem;
     line-height: 1.6;
@@ -355,6 +471,157 @@ main {
     border-radius: 8px;
     margin-bottom: 1rem;
     font-weight: 500;
+    animation: slideInCard var(--transition-normal) ease;
+}
+
+/* Side Panel */
+.side-panel {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.panel-section {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.panel-section h3 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.panel-clear-btn {
+    background: var(--accent-red);
+    color: var(--text-light);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+}
+
+.panel-clear-btn:hover {
+    background: #a01828;
+}
+
+/* History */
+.history-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-entry {
+    background: var(--card-bg);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.9rem;
+    animation: slideInCard var(--transition-normal) ease;
+}
+
+.history-time {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.history-hand {
+    font-weight: 500;
+}
+
+.history-action {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.history-action.action-hit {
+    background: #3498db;
+}
+
+.history-action.action-stand {
+    background: #2ecc71;
+}
+
+.history-action.action-double {
+    background: var(--accent-gold);
+    color: var(--text-dark);
+}
+
+.history-action.action-split {
+    background: #9b59b6;
+}
+
+.history-action.action-surrender {
+    background: var(--accent-red);
+}
+
+/* Statistics */
+.stats-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.stat-item {
+    background: var(--card-bg);
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: var(--text-light);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-strong);
+    z-index: 1000;
+    transition: bottom var(--transition-normal) ease;
+    white-space: pre-line;
+    text-align: center;
+    max-width: 90%;
+}
+
+.toast.show {
+    bottom: 2rem;
+    animation: shake var(--transition-normal) ease;
 }
 
 /* Helper Text */
@@ -362,6 +629,7 @@ main {
     font-size: 0.9rem;
     color: #666;
     font-style: italic;
+    margin-top: 0.5rem;
 }
 
 /* Footer */
@@ -383,12 +651,121 @@ footer p {
     font-style: italic;
 }
 
+.version {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
 /* Utility Classes */
 .hidden {
     display: none !important;
 }
 
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInCard {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes tada {
+    0% {
+        transform: scale(1);
+    }
+    10%, 20% {
+        transform: scale(0.9) rotate(-3deg);
+    }
+    30%, 50%, 70%, 90% {
+        transform: scale(1.1) rotate(3deg);
+    }
+    40%, 60%, 80% {
+        transform: scale(1.1) rotate(-3deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-50%) translateY(-2px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(-50%) translateY(2px);
+    }
+}
+
 /* Responsive Design */
+@media (max-width: 768px) {
+    .side-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-display {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 640px) {
     header h1 {
         font-size: 1.5rem;
@@ -415,6 +792,14 @@ footer p {
     main {
         padding: 1.5rem 1rem;
     }
+
+    .quick-scenarios {
+        grid-template-columns: 1fr;
+    }
+
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -429,8 +814,42 @@ footer p {
     header {
         padding: 1.5rem 1rem;
     }
+}
 
-    .actions-grid {
-        grid-template-columns: 1fr;
+/* Focus Styles for Accessibility */
+button:focus-visible,
+input:focus-visible,
+.card-btn:focus-visible {
+    outline: 3px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+
+    .container {
+        box-shadow: none;
+    }
+
+    .card-btn,
+    .get-advice-btn,
+    .clear-btn,
+    .panel-clear-btn,
+    .quick-scenario-btn {
+        display: none;
     }
 }

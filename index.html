@@ -3,34 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Strategy Advisor</title>
+    <meta name="description" content="Blackjack Strategy Advisor voor Premier Blackjack (TOTO) - Krijg optimaal strategie advies">
+    <meta name="theme-color" content="#1a5f3d">
+    <title>Blackjack Strategy Advisor - Premier Blackjack (TOTO)</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>♠️ Blackjack Strategy Advisor</h1>
             <p class="subtitle">Premier Blackjack (TOTO) Basic Strategy</p>
+            <p class="keyboard-hint">Druk op <kbd>?</kbd> voor keyboard shortcuts</p>
         </header>
 
         <main>
+            <!-- Quick Scenarios -->
+            <section class="quick-section">
+                <h2>Snelle Scenarios</h2>
+                <div class="quick-scenarios" id="quickScenarios">
+                    <!-- Dynamically populated by JavaScript -->
+                </div>
+            </section>
+
             <!-- Dealer Card Selection -->
             <section class="input-section">
                 <h2>Dealer Kaart</h2>
-                <div class="card-selector" id="dealerCards">
-                    <button class="card-btn" data-value="2">2</button>
-                    <button class="card-btn" data-value="3">3</button>
-                    <button class="card-btn" data-value="4">4</button>
-                    <button class="card-btn" data-value="5">5</button>
-                    <button class="card-btn" data-value="6">6</button>
-                    <button class="card-btn" data-value="7">7</button>
-                    <button class="card-btn" data-value="8">8</button>
-                    <button class="card-btn" data-value="9">9</button>
-                    <button class="card-btn" data-value="10">10</button>
-                    <button class="card-btn" data-value="J">J</button>
-                    <button class="card-btn" data-value="Q">Q</button>
-                    <button class="card-btn" data-value="K">K</button>
-                    <button class="card-btn" data-value="A">A</button>
+                <div class="card-selector" id="dealerCards" role="group" aria-label="Selecteer dealer kaart">
+                    <button class="card-btn" data-value="2" aria-label="Dealer kaart 2">2</button>
+                    <button class="card-btn" data-value="3" aria-label="Dealer kaart 3">3</button>
+                    <button class="card-btn" data-value="4" aria-label="Dealer kaart 4">4</button>
+                    <button class="card-btn" data-value="5" aria-label="Dealer kaart 5">5</button>
+                    <button class="card-btn" data-value="6" aria-label="Dealer kaart 6">6</button>
+                    <button class="card-btn" data-value="7" aria-label="Dealer kaart 7">7</button>
+                    <button class="card-btn" data-value="8" aria-label="Dealer kaart 8">8</button>
+                    <button class="card-btn" data-value="9" aria-label="Dealer kaart 9">9</button>
+                    <button class="card-btn" data-value="10" aria-label="Dealer kaart 10">10</button>
+                    <button class="card-btn" data-value="J" aria-label="Dealer kaart Jack">J</button>
+                    <button class="card-btn" data-value="Q" aria-label="Dealer kaart Queen">Q</button>
+                    <button class="card-btn" data-value="K" aria-label="Dealer kaart King">K</button>
+                    <button class="card-btn" data-value="A" aria-label="Dealer kaart Ace">A</button>
                 </div>
             </section>
 
@@ -38,47 +50,49 @@
             <section class="input-section">
                 <h2>Jouw Hand</h2>
 
-                <div class="input-mode-switch">
-                    <button class="mode-btn active" data-mode="cards">Kaarten Invoer</button>
-                    <button class="mode-btn" data-mode="total">Totaal Invoer</button>
+                <div class="input-mode-switch" role="tablist">
+                    <button class="mode-btn active" data-mode="cards" role="tab" aria-selected="true">Kaarten Invoer</button>
+                    <button class="mode-btn" data-mode="total" role="tab" aria-selected="false">Totaal Invoer</button>
                 </div>
 
                 <!-- Cards Input Mode -->
-                <div class="input-mode" id="cardsMode">
+                <div class="input-mode" id="cardsMode" role="tabpanel">
                     <div class="cards-input-area">
-                        <div id="selectedCards" class="selected-cards">
+                        <div id="selectedCards" class="selected-cards" aria-live="polite">
                             <p class="helper-text">Klik op kaarten om je hand samen te stellen</p>
                         </div>
-                        <button class="clear-btn" id="clearCards">Wis Kaarten</button>
+                        <button class="clear-btn" id="clearCards" aria-label="Wis alle kaarten">Wis Kaarten</button>
                     </div>
-                    <div class="card-selector" id="playerCards">
-                        <button class="card-btn" data-value="2">2</button>
-                        <button class="card-btn" data-value="3">3</button>
-                        <button class="card-btn" data-value="4">4</button>
-                        <button class="card-btn" data-value="5">5</button>
-                        <button class="card-btn" data-value="6">6</button>
-                        <button class="card-btn" data-value="7">7</button>
-                        <button class="card-btn" data-value="8">8</button>
-                        <button class="card-btn" data-value="9">9</button>
-                        <button class="card-btn" data-value="10">10</button>
-                        <button class="card-btn" data-value="J">J</button>
-                        <button class="card-btn" data-value="Q">Q</button>
-                        <button class="card-btn" data-value="K">K</button>
-                        <button class="card-btn" data-value="A">A</button>
+                    <div class="card-selector" id="playerCards" role="group" aria-label="Selecteer speler kaarten">
+                        <button class="card-btn" data-value="2" aria-label="Kaart 2">2</button>
+                        <button class="card-btn" data-value="3" aria-label="Kaart 3">3</button>
+                        <button class="card-btn" data-value="4" aria-label="Kaart 4">4</button>
+                        <button class="card-btn" data-value="5" aria-label="Kaart 5">5</button>
+                        <button class="card-btn" data-value="6" aria-label="Kaart 6">6</button>
+                        <button class="card-btn" data-value="7" aria-label="Kaart 7">7</button>
+                        <button class="card-btn" data-value="8" aria-label="Kaart 8">8</button>
+                        <button class="card-btn" data-value="9" aria-label="Kaart 9">9</button>
+                        <button class="card-btn" data-value="10" aria-label="Kaart 10">10</button>
+                        <button class="card-btn" data-value="J" aria-label="Kaart Jack">J</button>
+                        <button class="card-btn" data-value="Q" aria-label="Kaart Queen">Q</button>
+                        <button class="card-btn" data-value="K" aria-label="Kaart King">K</button>
+                        <button class="card-btn" data-value="A" aria-label="Kaart Ace">A</button>
                     </div>
                 </div>
 
                 <!-- Total Input Mode -->
-                <div class="input-mode hidden" id="totalMode">
+                <div class="input-mode hidden" id="totalMode" role="tabpanel">
                     <div class="total-input-group">
                         <label for="handTotal">Hand Totaal:</label>
-                        <input type="number" id="handTotal" min="4" max="21" placeholder="bijv. 16">
+                        <input type="number" id="handTotal" min="4" max="21" placeholder="bijv. 16" aria-describedby="total-hint">
+                        <p id="total-hint" class="helper-text">Voer je hand totaal in tussen 4 en 21</p>
 
                         <div class="checkbox-group">
                             <label>
-                                <input type="checkbox" id="isSoftHand">
+                                <input type="checkbox" id="isSoftHand" aria-describedby="soft-hint">
                                 <span>Soft hand (bevat Aas als 11)</span>
                             </label>
+                            <p id="soft-hint" class="helper-text">Vink aan als je hand een Aas bevat dat als 11 telt</p>
                         </div>
                     </div>
                 </div>
@@ -89,23 +103,23 @@
                 <h2>Beschikbare Acties</h2>
                 <div class="actions-grid">
                     <label class="action-checkbox">
-                        <input type="checkbox" name="action" value="hit" checked disabled>
+                        <input type="checkbox" name="action" value="hit" checked disabled aria-label="Hit actie (altijd beschikbaar)">
                         <span>Hit (Kaart)</span>
                     </label>
                     <label class="action-checkbox">
-                        <input type="checkbox" name="action" value="stand" checked disabled>
+                        <input type="checkbox" name="action" value="stand" checked disabled aria-label="Stand actie (altijd beschikbaar)">
                         <span>Stand (Blijven)</span>
                     </label>
                     <label class="action-checkbox">
-                        <input type="checkbox" name="action" value="double" id="doubleAction" checked>
+                        <input type="checkbox" name="action" value="double" id="doubleAction" checked aria-label="Double actie">
                         <span>Double (Dubbel)</span>
                     </label>
                     <label class="action-checkbox">
-                        <input type="checkbox" name="action" value="split" id="splitAction">
+                        <input type="checkbox" name="action" value="split" id="splitAction" aria-label="Split actie">
                         <span>Split (Splitsen)</span>
                     </label>
                     <label class="action-checkbox">
-                        <input type="checkbox" name="action" value="surrender" id="surrenderAction">
+                        <input type="checkbox" name="action" value="surrender" id="surrenderAction" aria-label="Surrender actie">
                         <span>Surrender (Opgeven)</span>
                     </label>
                 </div>
@@ -113,12 +127,13 @@
             </section>
 
             <!-- Get Advice Button -->
-            <button class="get-advice-btn" id="getAdviceBtn">
+            <button class="get-advice-btn" id="getAdviceBtn" aria-label="Krijg strategie advies">
                 Krijg Strategie Advies
+                <span class="keyboard-shortcut">Enter ↵</span>
             </button>
 
             <!-- Results Section -->
-            <section class="results-section hidden" id="resultsSection">
+            <section class="results-section hidden" id="resultsSection" aria-live="polite">
                 <h2>Advies</h2>
                 <div class="advice-card">
                     <div class="action-result" id="actionResult"></div>
@@ -127,12 +142,38 @@
             </section>
 
             <!-- Hand Summary (hidden by default) -->
-            <div class="hand-summary hidden" id="handSummary"></div>
+            <div class="hand-summary hidden" id="handSummary" aria-live="polite"></div>
+
+            <!-- Side Panel with History and Stats -->
+            <div class="side-panel">
+                <!-- History -->
+                <section class="panel-section">
+                    <div class="panel-header">
+                        <h3>Geschiedenis</h3>
+                        <button class="panel-clear-btn" id="clearHistory" aria-label="Wis geschiedenis">Wis</button>
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <p class="helper-text">Nog geen geschiedenis</p>
+                    </div>
+                </section>
+
+                <!-- Statistics -->
+                <section class="panel-section">
+                    <h3>Statistieken</h3>
+                    <div class="stats-display" id="statsDisplay">
+                        <div class="stat-item">
+                            <span class="stat-label">Totaal:</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
 
         <footer>
             <p>Basic Strategy voor Premier Blackjack (TOTO)</p>
             <p class="disclaimer">Educatieve tool - Gebruik op eigen risico</p>
+            <p class="version">v2.0 - Geoptimaliseerd met caching, keyboard shortcuts &amp; history</p>
         </footer>
     </div>
 

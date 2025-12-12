@@ -3,6 +3,11 @@
  *
  * Deze engine bevat alle basic strategy regels geïmplementeerd in code.
  * Geen gekopieerde tabellen - alle logica is zelf geïmplementeerd.
+ *
+ * Optimized version with:
+ * - Query result caching
+ * - Lookup tables for fast decisions
+ * - Minimal object creation
  */
 
 class BlackjackStrategy {
@@ -12,6 +17,64 @@ class BlackjackStrategy {
             '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
             'J': 10, 'Q': 10, 'K': 10, 'A': 11
         };
+
+        // Cache voor herhaalde queries (max 100 entries)
+        this.cache = new Map();
+        this.cacheMaxSize = 100;
+
+        // Pre-computed lookup tables voor snellere beslissingen
+        this.initializeLookupTables();
+    }
+
+    /**
+     * Initialize lookup tables voor common scenarios
+     */
+    initializeLookupTables() {
+        // Dealer zwakke kaarten (2-6) - high bust probability
+        this.weakDealerCards = new Set([2, 3, 4, 5, 6]);
+
+        // Dealer sterke kaarten (7-A)
+        this.strongDealerCards = new Set([7, 8, 9, 10, 11]);
+
+        // Pairs die altijd split zijn
+        this.alwaysSplitPairs = new Set([8, 11]); // 8,8 en A,A
+
+        // Pairs die nooit split zijn
+        this.neverSplitPairs = new Set([5, 10]); // 5,5 en 10,10
+    }
+
+    /**
+     * Genereer cache key voor een query
+     */
+    getCacheKey(hand, dealerValue, availableActions) {
+        return `${hand.total}-${hand.isSoft}-${hand.isPair}-${dealerValue}-${availableActions.join(',')}`;
+    }
+
+    /**
+     * Haal resultaat uit cache of bereken nieuw
+     */
+    getCachedAdvice(hand, dealerValue, availableActions) {
+        const cacheKey = this.getCacheKey(hand, dealerValue, availableActions);
+
+        if (this.cache.has(cacheKey)) {
+            return this.cache.get(cacheKey);
+        }
+
+        return null;
+    }
+
+    /**
+     * Sla resultaat op in cache
+     */
+    setCacheAdvice(hand, dealerValue, availableActions, advice) {
+        // Limiteer cache size
+        if (this.cache.size >= this.cacheMaxSize) {
+            const firstKey = this.cache.keys().next().value;
+            this.cache.delete(firstKey);
+        }
+
+        const cacheKey = this.getCacheKey(hand, dealerValue, availableActions);
+        this.cache.set(cacheKey, advice);
     }
 
     /**
@@ -24,43 +87,62 @@ class BlackjackStrategy {
     getAdvice(hand, dealerCard, availableActions) {
         const dealerValue = this.dealerValues[dealerCard];
 
+        // Check cache eerst
+        const cachedResult = this.getCachedAdvice(hand, dealerValue, availableActions);
+        if (cachedResult) {
+            return cachedResult;
+        }
+
+        let advice;
+
         // Check voor pair eerst (als er precies 2 kaarten zijn met dezelfde waarde)
         if (hand.isPair && availableActions.includes('split')) {
             const pairAdvice = this.getPairStrategy(hand.cards[0], dealerValue, availableActions);
             if (pairAdvice.action === 'SPLIT') {
-                return pairAdvice;
+                advice = pairAdvice;
+                this.setCacheAdvice(hand, dealerValue, availableActions, advice);
+                return advice;
             }
         }
 
         // Soft hand (aas telt als 11)
         if (hand.isSoft) {
-            return this.getSoftStrategy(hand.total, dealerValue, availableActions);
+            advice = this.getSoftStrategy(hand.total, dealerValue, availableActions);
+        } else {
+            // Hard hand
+            advice = this.getHardStrategy(hand.total, dealerValue, availableActions);
         }
 
-        // Hard hand
-        return this.getHardStrategy(hand.total, dealerValue, availableActions);
+        // Cache het resultaat
+        this.setCacheAdvice(hand, dealerValue, availableActions, advice);
+        return advice;
     }
 
     /**
-     * Strategy voor pairs
+     * Strategy voor pairs (optimized with lookup tables)
      */
     getPairStrategy(cardValue, dealerValue, availableActions) {
         const card = this.dealerValues[cardValue] || parseInt(cardValue);
 
-        // A,A - Altijd split
-        if (cardValue === 'A') {
+        // Use lookup tables voor snellere beslissingen
+        // A,A en 8,8 - Altijd split
+        if (this.alwaysSplitPairs.has(card)) {
             return {
                 action: 'SPLIT',
-                explanation: 'Split aces altijd - geeft twee kansen op blackjack.'
+                explanation: card === 11 ? 'Split aces altijd - geeft twee kansen op blackjack.' : 'Split 8s altijd - 16 is een slechte hand, twee 18s is beter.'
             };
         }
 
-        // 10,10 - Nooit split
-        if (card === 10) {
-            return {
-                action: 'STAND',
-                explanation: '20 is een te goede hand om te splitten.'
-            };
+        // 10,10 en 5,5 - Nooit split
+        if (this.neverSplitPairs.has(card)) {
+            if (card === 10) {
+                return {
+                    action: 'STAND',
+                    explanation: '20 is een te goede hand om te splitten.'
+                };
+            }
+            // 5,5 behandel als hard 10
+            return this.getHardStrategy(10, dealerValue, availableActions);
         }
 
         // 9,9
@@ -74,14 +156,6 @@ class BlackjackStrategy {
             return {
                 action: 'SPLIT',
                 explanation: 'Split 9s tegen zwakkere dealer kaarten voor meer winst.'
-            };
-        }
-
-        // 8,8 - Altijd split
-        if (card === 8) {
-            return {
-                action: 'SPLIT',
-                explanation: 'Split 8s altijd - 16 is een slechte hand, twee 18s is beter.'
             };
         }
 
@@ -111,11 +185,6 @@ class BlackjackStrategy {
                 action: 'HIT',
                 explanation: '12 is te zwak tegen sterke dealer kaart.'
             };
-        }
-
-        // 5,5 - Nooit split, behandel als hard 10
-        if (card === 5) {
-            return this.getHardStrategy(10, dealerValue, availableActions);
         }
 
         // 4,4
